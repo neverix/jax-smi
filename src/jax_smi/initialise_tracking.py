@@ -1,4 +1,10 @@
+already_initialized: bool = False
+
+
 def initialise_tracking(interval: float=1., dir_prefix: str='/dev/shm') -> None:
+    global already_initialized
+    if already_initialized:
+        return
     import jax
     import threading
 
@@ -12,3 +18,4 @@ def initialise_tracking(interval: float=1., dir_prefix: str='/dev/shm') -> None:
 
     thread = threading.Thread(target=inner, daemon=True)
     thread.start()
+    already_initialized = True
